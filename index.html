@@ -30,22 +30,38 @@ body.dark {
   --banner-bg: #1A1D23; --shadow-sm: 0 2px 8px rgba(0,0,0,0.4); --shadow-md: 0 8px 24px rgba(0,0,0,0.5);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: "Manrope", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background-color: var(--bg-color); color: var(--text-main); font-size: 14px; line-height: 1.6; transition: background-color 0.3s, color 0.3s; -webkit-font-smoothing: antialiased; }
+body { font-family: "Manrope", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background-color: var(--bg-color); color: var(--text-main); font-size: 14px; line-height: 1.6; transition: background-color 0.3s, color 0.3s; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 body.lock-scroll { overflow: hidden; }
 button, input, textarea { font-family: inherit; }
 
+/* ============ 动画系统 ============ */
+@keyframes slideUpFade {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.play-anim .animate-item { opacity: 0; animation: slideUpFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+.play-anim .delay-1 { animation-delay: 0.05s; }
+.play-anim .delay-2 { animation-delay: 0.1s; }
+.play-anim .delay-3 { animation-delay: 0.15s; }
+
+.heart-fly { position: fixed; font-size: 20px; pointer-events: none; z-index: 9999; animation: floatUpFade 1s ease-out forwards; }
+@keyframes floatUpFade { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-60px) scale(1.5); opacity: 0; } }
+.pop-anim { animation: popScale 0.3s ease-out; }
+@keyframes popScale { 50% { transform: scale(1.15); } }
+
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
 /* ============ 新人入站动画 ============ */
-#onboarding { position: fixed; inset: 0; z-index: 99999; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-main); text-align: center; transition: opacity 0.8s ease, visibility 0.8s; }
+#onboarding { position: fixed; inset: 0; z-index: 99999; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-main); text-align: center; transition: opacity 0.6s ease, visibility 0.6s; }
 body.dark #onboarding { background: #121212; }
 #onboarding.hide { opacity: 0; visibility: hidden; }
 .onboard-content { max-width: 600px; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 .onboard-logo { display: flex; align-items: center; gap: 8px; font-size: 56px; font-weight: 800; letter-spacing: 2px; margin-bottom: 20px; opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.2s; }
 .onboard-logo .pink { color: var(--bili-pink); }
 .onboard-logo .blue { color: var(--bili-blue); }
-.onboard-subtitle { font-size: 16px; color: var(--text-gray); margin-bottom: 60px; opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 1s; }
-.onboard-btn { background: var(--bili-pink); color: #fff; border: none; padding: 14px 56px; font-size: 16px; font-weight: 700; border-radius: 99px; cursor: pointer; opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 1.8s; transition: transform 0.2s, background 0.2s; box-shadow: 0 8px 24px rgba(251,114,153,0.3); }
+.onboard-subtitle { font-size: 16px; color: var(--text-gray); margin-bottom: 60px; opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.8s; }
+.onboard-btn { background: var(--bili-pink); color: #fff; border: none; padding: 14px 56px; font-size: 16px; font-weight: 700; border-radius: 99px; cursor: pointer; opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 1.4s; transition: transform 0.2s, background 0.2s; box-shadow: 0 8px 24px rgba(251,114,153,0.3); }
 .onboard-btn:hover { background: #E56284; transform: scale(1.05) translateY(0) !important; }
-@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
 /* ============ 顶部 Banner ============ */
 .bili-banner { height: 180px; background: var(--banner-bg); position: relative; overflow: visible; }
@@ -64,11 +80,9 @@ body.dark #onboarding { background: #121212; }
 .user-menu { position: relative; }
 .user-trigger { background: none; border: none; color: #fff; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 4px 12px 4px 4px; border-radius: 99px; transition: 0.25s; }
 .user-trigger:hover { background: rgba(255,255,255,0.12); }
-.avatar-img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: #2c2c2c; border: 2px solid rgba(255,255,255,0.5); display: block; transition: transform 0.25s; }
-.user-trigger:hover .avatar-img { transform: scale(1.06); }
+.avatar-img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: #2c2c2c; border: 2px solid rgba(255,255,255,0.5); display: block; transition: transform 0.2s; }
+.user-trigger:hover .avatar-img { transform: scale(1.05); }
 .user-name { max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
-
-/* 悬停卡片 */
 .profile-hover-card { position: absolute; top: calc(100% + 12px); right: 0; width: 260px; background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.16), 0 2px 6px rgba(0,0,0,0.05); color: #18191C; padding: 18px; opacity: 0; visibility: hidden; transform: translateY(-10px) scale(0.94); transform-origin: top right; transition: opacity 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.25s; pointer-events: none; z-index: 9999; text-align: center; border: 1px solid rgba(227,229,231,0.8); }
 body.dark .profile-hover-card { background: rgba(30, 30, 30, 0.88); color: #E8E8E8; border-color: rgba(46, 46, 46, 0.8); }
 .profile-hover-card::before { content: ''; position: absolute; top: -12px; left: 0; right: 0; height: 12px; }
@@ -89,7 +103,6 @@ body.dark .level-bar { background: #2E2E2E; }
 .level-progress-hint { font-size: 10px; color: #9499A0; margin-bottom: 14px; text-align: center; }
 .hover-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; padding: 10px 0; border-top: 1px solid rgba(241,242,243,0.7); border-bottom: 1px solid rgba(241,242,243,0.7); margin-bottom: 12px; }
 body.dark .hover-stats { border-color: rgba(46,46,46,0.7); }
-.hover-stats .stat-item { cursor: pointer; }
 .hover-stats .stat-num { font-size: 15px; font-weight: 800; }
 .hover-stats .stat-lbl { font-size: 11px; color: #9499A0; margin-top: 1px; }
 .hover-menu { text-align: left; }
@@ -125,7 +138,7 @@ body.dark .theme-toggle span.active { background: #1E1E1E; }
 .section-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; letter-spacing: -0.3px; }
 .section-title .more { margin-left: auto; font-size: 13px; color: var(--text-gray); cursor: pointer; font-weight: 500; }
 .featured-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
-.featured-main { position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; background: var(--card-bg); box-shadow: var(--shadow-sm); display: flex; min-height: 280px; transition: transform 0.25s, box-shadow 0.25s; border: 1px solid var(--border-color); }
+.featured-main { position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; background: var(--card-bg); box-shadow: var(--shadow-sm); display: flex; min-height: 280px; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid var(--border-color); }
 .featured-main:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
 .featured-main .fm-cover { width: 42%; flex-shrink: 0; background: #6C5CE7; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 48px; overflow: hidden; font-weight: 800; }
 .featured-main .fm-cover img { width: 100%; height: 100%; object-fit: cover; }
@@ -188,8 +201,8 @@ body.dark .theme-toggle span.active { background: #1E1E1E; }
 .action-btn:hover { background: var(--border-color); }
 .action-btn.active { background: var(--bili-pink); color: #fff; }
 .action-btn.active.coin { background: #FFB800; color: #fff; }
-.action-btn svg { width: 18px; height: 18px; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.action-btn:hover svg { transform: scale(1.15); }
+.action-btn svg { width: 18px; height: 18px; transition: transform 0.2s; }
+.action-btn:hover svg { transform: scale(1.1); }
 .action-btn.active svg.like-icon { fill: currentColor; stroke: currentColor; }
 .action-btn.active.coin svg.coin-icon { fill: currentColor; stroke: currentColor; }
 .reader-layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; }
@@ -278,7 +291,8 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
 
 /* ============ 模态框 ============ */
 .overlay { position: fixed; inset: 0; z-index: 500; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); }
-.overlay.show { display: flex; }
+.overlay.show { display: flex; animation: fadeIn 0.2s ease-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .panel { background: var(--card-bg); border-radius: 12px; width: 100%; max-width: 480px; padding: 32px; max-height: 90vh; overflow: auto; box-shadow: var(--shadow-md); }
 .panel.narrow { max-width: 400px; }
 .panel h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.3px; }
@@ -306,38 +320,39 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
 .btn.danger { background: #FF4757; color: #fff; }
 .btn.danger:hover { background: #E03E4D; }
 
-/* ============ 手机端专用 UI 优化 ============ */
-@media (max-width: 768px) {
-  /* 顶栏折叠 */
-  .bili-header { flex-wrap: wrap; padding: 10px 12px; gap: 10px; }
-  .header-left { width: 100%; justify-content: space-between; }
-  .header-left .nav-links { display: none; } /* 手机端隐藏导航 */
-  .bili-header .search-box { order: 3; width: 100%; max-width: 100%; margin: 0; }
-  .header-right { margin-left: auto; gap: 10px; }
-  .user-name { display: none; } /* 手机端隐藏头像旁的昵称 */
-  .upload-btn { padding: 6px 12px; font-size: 12px; }
-  /* 隐藏悬停卡片，改为点击头像直接跳转 */
-  .profile-hover-card { display: none !important; }
+/* 手机端悬浮发帖按钮 */
+.fab { display: none; position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: var(--bili-pink); color: #fff; font-size: 24px; border: none; box-shadow: 0 4px 16px rgba(251,114,153,0.4); z-index: 99; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; }
+.fab:active { transform: scale(0.9); }
 
-  /* 首页布局 */
+/* ============ 手机端专用 UI ============ */
+@media (max-width: 768px) {
+  .bili-header { flex-wrap: wrap; padding: 10px 12px; gap: 10px; position: fixed; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); color: var(--text-main); border-bottom: 1px solid var(--border-color); }
+  body.dark .bili-header { background: rgba(18,18,18,0.95); }
+  .header-left { width: 100%; justify-content: space-between; }
+  .header-left .nav-links { display: none; }
+  .bili-header .search-box { order: 3; width: 100%; max-width: 100%; margin: 4px 0 0 0; }
+  .bili-header .search-box input { background: var(--hover-bg); border: 1px solid var(--border-color); }
+  .header-right { margin-left: auto; gap: 10px; }
+  .user-name { display: none; }
+  .upload-btn { display: none; }
+  .profile-hover-card { display: none !important; }
+  .bili-banner { height: 110px; background: transparent; }
+  .bili-category { margin-top: 120px; padding: 10px 12px; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; -ms-overflow-style: none; }
+  .bili-category::-webkit-scrollbar { display: none; }
+  .bili-category .cat-item { flex-shrink: 0; padding: 6px 14px; border-radius: 99px; }
   .main-content { padding: 12px; }
-  .bili-category { padding: 12px; gap: 8px; }
-  .bili-category .cat-item { font-size: 12px; padding: 4px 10px; }
   .featured-layout { grid-template-columns: 1fr; gap: 16px; }
   .featured-main { flex-direction: column; min-height: auto; }
-  .featured-main .fm-cover { width: 100%; height: 200px; }
+  .featured-main .fm-cover { width: 100%; height: 220px; }
   .featured-main .fm-info { padding: 16px; }
   .featured-main h3 { font-size: 20px; }
   .featured-side { grid-template-rows: none; grid-template-columns: 1fr; gap: 10px; }
-  .side-card { padding: 10px; }
   .hot-list { grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .hot-item .hot-rank { width: 24px; height: 24px; font-size: 12px; border-radius: 6px; }
   .books-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .book-info { padding: 8px; }
   .book-title { font-size: 14px; }
-  .book-stats span:nth-child(n+2) { display: none; } /* 手机端卡片只显示阅读量 */
-  
-  /* 阅读页 */
+  .book-stats span:nth-child(n+2) { display: none; }
   .reader-header { flex-direction: column; align-items: flex-start; gap: 12px; padding: 12px; margin-bottom: 12px; }
   .reader-header-left { width: 100%; }
   .reader-header-center { width: 100%; order: 1; justify-content: flex-start; }
@@ -349,23 +364,21 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
   .chapter-title { font-size: 18px; }
   .chapter-text { font-size: 16px; }
   .chapter-nav button { padding: 8px 16px; font-size: 13px; }
-  
-  /* 评论区 */
   .comment { gap: 10px; }
   .c-avatar { width: 32px; height: 32px; }
   .comment.reply { margin-left: 24px; }
-  
-  /* 个人中心/设置 */
   .profile-card { padding: 20px 16px; }
   .profile-head { gap: 12px; }
   .profile-avatar { width: 60px; height: 60px; }
   .profile-name { font-size: 18px; }
   .upload-area.avatar-area { width: 80px; height: 80px; }
   .upload-area.avatar-area .upload-icon { width: 28px; height: 28px; font-size: 14px; }
-  
-  /* 创作中心 */
   .upload-section { padding: 16px; }
   .upload-section h2 { font-size: 18px; }
+  .overlay { padding: 0; }
+  .panel { border-radius: 0; max-height: 100vh; height: 100%; display: flex; flex-direction: column; }
+  .panel .btn { margin-top: auto; }
+  .fab { display: flex; }
 }
 </style>
 </head>
@@ -411,6 +424,9 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
 </div>
 
 <main class="main-content" id="app"></main>
+
+<!-- 手机端悬浮发帖 -->
+<button class="fab" onclick="goUpload()">+</button>
 
 <div class="overlay" id="disclaimerOverlay">
   <div class="panel">
@@ -461,8 +477,11 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
 (async function() {
-  const SUPABASE_URL = 'https://zxfeihvkapyzdogvadsq.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_34f10Mo1l9kQ1so7YL9h2Q_pHtA8u31';
+  // ==========================================
+  // 已替换为你提供的最新 Supabase 配置
+  // ==========================================
+  const SUPABASE_URL = 'https://wxviktechcqrpudbdzhu.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_EehU7zcjbdnqBVecQxhkmg_-k6ebejG';
   let supabaseClient = null;
 
   const DEFAULT_AVATAR = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%232c2c2c'/%3E%3Ccircle cx='50' cy='38' r='16' fill='none' stroke='%23ffffff' stroke-width='8'/%3E%3Cpath d='M22 88 Q 50 60 78 88' fill='none' stroke='%23ffffff' stroke-width='8'/%3E%3C/svg%3E";
@@ -545,6 +564,7 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
 
   let State = { user: null, view: 'home', homeTab: 'all', currentCategory: '全部', novelId: null, chapterIndex: 0, keyword: '', currentComments: [], novels: [], theme: 'light', authorCache: {} };
   let authMode = 'login';
+  let hasAnimatedHome = false;
 
   function esc(str = '') { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
   function $(id) { return document.getElementById(id); }
@@ -553,6 +573,19 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
   function showOverlay(id) { $(id).classList.add('show'); }
   function hideOverlay(id) { $(id).classList.remove('show'); }
   function isRegisterMode() { return authMode === 'register'; }
+
+  function getLocalProgress(novelId) {
+    const p = localStorage.getItem('ns_progress_' + (State.user ? State.user.username : 'guest'));
+    if (p) { const map = JSON.parse(p); return map[novelId] ?? null; }
+    return null;
+  }
+  function setLocalProgress(novelId, index) {
+    const key = 'ns_progress_' + (State.user ? State.user.username : 'guest');
+    let map = {};
+    try { map = JSON.parse(localStorage.getItem(key)) || {}; } catch(e){}
+    map[novelId] = index;
+    localStorage.setItem(key, JSON.stringify(map));
+  }
 
   window.enterSite = function() {
     const el = $('onboarding');
@@ -563,7 +596,7 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
     setTimeout(() => {
       const agreed = localStorage.getItem('ns_agreed') === '1';
       if (!agreed) { showOverlay('disclaimerOverlay'); }
-    }, 800);
+    }, 600);
   };
 
   async function fetchNovelsWithStats() {
@@ -647,30 +680,50 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
   window.setCategory = function(cat) {
     State.currentCategory = cat;
     document.querySelectorAll('.cat-item').forEach(el => { el.classList.toggle('active', el.textContent === cat); });
-    goHome('all');
+    renderHome($('app'));
   };
 
-  window.goHome = function(tab) { State.view = 'home'; if (tab) State.homeTab = tab; State.novelId = null; render(); window.scrollTo({ top: 0 }); };
-  window.onSearch = function() { State.keyword = $('searchInput').value.trim().toLowerCase(); if (State.view !== 'home') { State.view = 'home'; State.novelId = null; } render(); };
-  window.setHomeTab = function(tab) { State.homeTab = tab; render(); };
-  
-  window.openNovel = async function(id) {
-    const novel = State.novels.find(n => n.id === id); if (!novel) return;
-    State.view = 'reader'; State.novelId = id;
-    const chapters = novel.chapters || [];
-    const saved = State.user ? await DB.getProgress(State.user.id, id) : null;
-    State.chapterIndex = Math.min(saved ?? 0, Math.max(0, chapters.length - 1));
-    incrementViews(id);
-    render(); window.scrollTo({ top: 0 });
+  window.goHome = function(tab) { 
+    State.view = 'home'; if (tab) State.homeTab = tab; State.novelId = null; 
+    renderHome($('app')); 
+    window.scrollTo({ top: 0 });
   };
   
-  window.openChapter = async function(index) {
+  window.onSearch = function() { 
+    State.keyword = $('searchInput').value.trim().toLowerCase(); 
+    if (State.view !== 'home') { State.view = 'home'; State.novelId = null; } 
+    renderHome($('app')); 
+  };
+  
+  window.setHomeTab = function(tab) { State.homeTab = tab; renderHome($('app')); };
+  
+  window.openNovel = function(id) {
+    const novel = State.novels.find(n => n.id === id); if (!novel) return;
+    
+    State.view = 'reader'; State.novelId = id;
+    const chapters = novel.chapters || [];
+    
+    let saved = getLocalProgress(id);
+    State.chapterIndex = Math.min(saved ?? 0, Math.max(0, chapters.length - 1));
+    
+    render();
+    window.scrollTo({ top: 0 });
+    
+    incrementViews(id);
+  };
+  
+  window.openChapter = function(index) {
     const novel = State.novels.find(n => n.id === State.novelId); if (!novel || !novel.chapters) return;
     if (index < 0 || index >= novel.chapters.length) return;
     if (!State.user && index > 0) { openAuth('login'); return; }
+    
     State.chapterIndex = index;
-    if (State.user) await DB.setProgress(State.user.id, State.novelId, index);
-    render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    setLocalProgress(State.novelId, index);
+    
+    render(); 
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    if (State.user) DB.setProgress(State.user.id, State.novelId, index);
   };
 
   window.toggleFollow = async function(authorId) {
@@ -689,6 +742,19 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
     if (!requireLogin()) return;
     const novel = State.novels.find(n => n.id === novelId);
     if (!novel) return;
+    
+    const btn = event.currentTarget;
+    btn.classList.add('pop-anim');
+    setTimeout(() => btn.classList.remove('pop-anim'), 300);
+    for(let i=0; i<3; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart-fly'; heart.innerHTML = '❤️';
+      heart.style.left = (event.clientX + (Math.random()*30-15)) + 'px';
+      heart.style.top = (event.clientY - 20) + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1000);
+    }
+
     let likes = novel.likes || [];
     const idx = likes.indexOf(State.user.id);
     if (idx >= 0) likes.splice(idx, 1);
@@ -704,6 +770,19 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
     if (!requireLogin()) return;
     const novel = State.novels.find(n => n.id === novelId);
     if (!novel) return;
+    
+    const btn = event.currentTarget;
+    btn.classList.add('pop-anim');
+    setTimeout(() => btn.classList.remove('pop-anim'), 300);
+    for(let i=0; i<2; i++) {
+      const coin = document.createElement('div');
+      coin.className = 'heart-fly'; coin.innerHTML = '🪙';
+      coin.style.left = (event.clientX + (Math.random()*30-15)) + 'px';
+      coin.style.top = (event.clientY - 20) + 'px';
+      document.body.appendChild(coin);
+      setTimeout(() => coin.remove(), 1000);
+    }
+
     const coins = novel.coins || {};
     const myCoins = coins[State.user.id] || 0;
     if (myCoins >= 2) { alert('每本小说最多投 2 个币哦~'); return; }
@@ -994,22 +1073,25 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
     const sideList = list.slice(1, 4);
     const hotList = [...list].sort((a, b) => b.views - a.views).slice(0, 5);
     
-    let html = '';
-    html += '<section class="home-section"><h2 class="section-title">🔥 今日推荐</h2><div class="featured-layout"><div class="featured-main" onclick="openNovel(\'' + esc(featured.id) + '\')"><div class="fm-cover">' + (featured.cover ? '<img src="' + esc(featured.cover) + '">' : '书') + '</div><div class="fm-info"><span class="fm-badge">今日推荐</span><h3>' + esc(featured.title) + '</h3><div class="fm-author">✍ ' + esc(featured.author) + '</div><p class="fm-intro">' + esc(featured.intro || '暂无简介') + '</p><div class="fm-tags">' + (featured.tags||[]).map(t => '<span>' + esc(t) + '</span>').join('') + '</div><div class="fm-stats"><span>📖 ' + formatNum(featured.views) + ' 阅读</span><span>⭐ ' + featured.favorites + ' 收藏</span><span>💬 ' + featured.comments + ' 评论</span></div></div></div><div class="featured-side">';
+    const animClass = hasAnimatedHome ? '' : 'play-anim';
+    if (!hasAnimatedHome) hasAnimatedHome = true;
+
+    let html = `<div class="${animClass}">`;
+    html += `<section class="home-section animate-item delay-1"><h2 class="section-title">🔥 今日推荐</h2><div class="featured-layout"><div class="featured-main" onclick="openNovel('${esc(featured.id)}')"><div class="fm-cover">${featured.cover ? `<img src="${esc(featured.cover)}">` : '书'}</div><div class="fm-info"><span class="fm-badge">今日推荐</span><h3>${esc(featured.title)}</h3><div class="fm-author">✍ ${esc(featured.author)}</div><p class="fm-intro">${esc(featured.intro || '暂无简介')}</p><div class="fm-tags">${(featured.tags||[]).map(t => `<span>${esc(t)}</span>`).join('')}</div><div class="fm-stats"><span>📖 ${formatNum(featured.views)} 阅读</span><span>⭐ ${featured.favorites} 收藏</span><span>💬 ${featured.comments} 评论</span></div></div></div><div class="featured-side">`;
     if (sideList.length) {
-      html += sideList.map(n => '<div class="side-card" onclick="openNovel(\'' + esc(n.id) + '\')"><div class="side-cover">' + (n.cover ? '<img src="' + esc(n.cover) + '">' : '书') + '</div><div class="side-info"><div class="side-title">' + esc(n.title) + '</div><div class="side-author">' + esc(n.author) + '</div><div class="side-stats">📖 ' + formatNum(n.views) + ' · 💬 ' + n.comments + '</div></div></div>').join('');
+      html += sideList.map(n => `<div class="side-card animate-item delay-2" onclick="openNovel('${esc(n.id)}')"><div class="side-cover">${n.cover ? `<img src="${esc(n.cover)}">` : '书'}</div><div class="side-info"><div class="side-title">${esc(n.title)}</div><div class="side-author">${esc(n.author)}</div><div class="side-stats">📖 ${formatNum(n.views)} · 💬 ${n.comments}</div></div></div>`).join('');
     } else {
       html += '<div class="side-card"><div class="side-cover">书</div><div class="side-info"><div class="side-title">暂无推荐</div><div class="side-author">—</div><div class="side-stats">—</div></div></div>'.repeat(3);
     }
-    html += '</div></div></section>';
+    html += `</div></div></section>`;
     
-    html += '<section class="home-section"><h2 class="section-title">🏆 热门榜单</h2><div class="hot-list">';
-    html += hotList.map((n, i) => '<div class="hot-item" onclick="openNovel(\'' + esc(n.id) + '\')"><div class="hot-rank">' + (i+1) + '</div><div class="hot-cover">' + (n.cover ? '<img src="' + esc(n.cover) + '">' : '书') + '</div><div class="hot-info"><div class="hot-title">' + esc(n.title) + '</div><div class="hot-author">' + esc(n.author) + '</div><div class="hot-reads">📖 ' + formatNum(n.views) + ' 阅读</div></div></div>').join('');
-    html += '</div></section>';
+    html += `<section class="home-section animate-item delay-2"><h2 class="section-title">🏆 热门榜单</h2><div class="hot-list">`;
+    html += hotList.map((n, i) => `<div class="hot-item" onclick="openNovel('${esc(n.id)}')"><div class="hot-rank">${i+1}</div><div class="hot-cover">${n.cover ? `<img src="${esc(n.cover)}">` : '书'}</div><div class="hot-info"><div class="hot-title">${esc(n.title)}</div><div class="hot-author">${esc(n.author)}</div><div class="hot-reads">📖 ${formatNum(n.views)} 阅读</div></div></div>`).join('');
+    html += `</div></section>`;
     
-    html += '<section class="home-section"><h2 class="section-title">📚 全部小说 <span class="more">共 ' + list.length + ' 本</span></h2><div class="books-grid">';
-    html += list.map(n => '<div class="book-card" onclick="openNovel(\'' + esc(n.id) + '\')"><div class="book-cover">' + (n.cover ? '<img src="' + esc(n.cover) + '">' : '书') + '</div><div class="book-info"><div class="book-title">' + esc(n.title) + '</div><div class="book-author">' + esc(n.author) + '</div><div class="book-stats"><span>📖 ' + formatNum(n.views) + '</span><span>⭐ ' + n.favorites + '</span><span>💬 ' + n.comments + '</span></div></div></div>').join('');
-    html += '</div></section>';
+    html += `<section class="home-section animate-item delay-3"><h2 class="section-title">📚 全部小说 <span class="more">共 ${list.length} 本</span></h2><div class="books-grid">`;
+    html += list.map(n => `<div class="book-card" onclick="openNovel('${esc(n.id)}')"><div class="book-cover">${n.cover ? `<img src="${esc(n.cover)}">` : '书'}</div><div class="book-info"><div class="book-title">${esc(n.title)}</div><div class="book-author">${esc(n.author)}</div><div class="book-stats"><span>📖 ${formatNum(n.views)}</span><span>⭐ ${n.favorites}</span><span>💬 ${n.comments}</span></div></div></div>`).join('');
+    html += `</div></section></div>`;
     
     app.innerHTML = html;
   }
@@ -1019,8 +1101,6 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
     const chapters = novel.chapters || [];
     const chapter = chapters[State.chapterIndex];
     const isFav = State.user ? (await DB.getShelf(State.user.id)).includes(novel.id) : false;
-    const comments = await DB.getComments(novel.id, State.chapterIndex);
-    State.currentComments = comments;
     const canDelete = State.user && State.user.id === novel.uploader_id;
     const isGuest = !State.user;
     const isSelf = State.user && State.user.id === novel.uploader_id;
@@ -1089,10 +1169,29 @@ body.dark .chapter-list li.active { background: rgba(251,114,153,0.15); }
                 : '<button class="btn blue" onclick="openChapter(' + (State.chapterIndex+1) + ')" ' + (State.chapterIndex>=chapters.length-1?'disabled':'') + '>下一章 →</button>'}
             </div>
             ${isGuest ? '<div style="text-align:center;margin-top:30px;padding:20px;background:var(--hover-bg);border-radius:8px;color:var(--text-gray);font-size:14px;">👋 你正在以游客身份阅读，<a onclick="openAuth(\'login\')" style="color:var(--bili-pink);cursor:pointer;font-weight:700;">登录</a>后可解锁全部章节并参与评论</div>' : ''}
-            ${renderCommentsHtml(comments, novel)}
+            
+            <!-- 评论区占位，由 JS 异步填充 -->
+            <div id="commentSection" class="comments">
+              <div class="comments-head"><h3>评论</h3><span class="count">加载中...</span></div>
+              <div style="text-align:center; padding: 20px; color: var(--text-gray);">正在加载评论...</div>
+            </div>
+            
           ` : '<div style="text-align:center;padding:50px 0;color:var(--text-gray);">暂无正文</div>'}
         </section>
       </div>`;
+
+    // 异步拉取评论并渲染
+    DB.getComments(novel.id, State.chapterIndex).then(comments => {
+      State.currentComments = comments;
+      const commentSection = document.getElementById('commentSection');
+      if (commentSection) {
+        commentSection.outerHTML = renderCommentsHtml(comments, novel);
+      }
+    }).catch(e => {
+      console.error("评论加载失败", e);
+      const commentSection = document.getElementById('commentSection');
+      if (commentSection) commentSection.innerHTML = '<div class="comments-head"><h3>评论</h3></div><div style="text-align:center; padding: 20px; color: var(--text-gray);">评论加载失败，请稍后重试</div>';
+    });
   }
 
   function renderCommentsHtml(comments, novel) {
