@@ -37,9 +37,9 @@ header{position:sticky;top:0;z-index:100;height:var(--h-h);background:rgba(255,2
 body.dark header{background:rgba(10,10,10,.85)}
 .h-inner{max-width:var(--maxw);height:100%;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:24px}
 .logo{font-size:20px;font-weight:700;background:none;border:none;letter-spacing:-.5px;flex-shrink:0}
-.nav-links{display:flex;gap:8px;flex-shrink:0}
-.nav-links button{background:none;border:none;padding:6px 12px;font-size:14px;font-weight:500;color:var(--sub);border-radius:var(--r-sm);transition:.2s}
-.nav-links button:hover{color:var(--text);background:var(--hover)}
+.nav-links{display:flex;gap:8px;flex-shrink:0;align-items:center}
+.nav-links button,.nav-links a{background:none;border:none;padding:6px 12px;font-size:14px;font-weight:500;color:var(--sub);border-radius:var(--r-sm);transition:.2s;cursor:pointer;display:inline-flex;align-items:center}
+.nav-links button:hover,.nav-links a:hover{color:var(--text);background:var(--hover)}
 .search-box{flex:1;max-width:320px;margin-left:auto;position:relative;display:flex;align-items:center}
 .search-box svg{position:absolute;left:12px;width:16px;height:16px;color:var(--light)}
 .search-box input{width:100%;height:36px;border-radius:var(--pill);border:1px solid transparent;background:var(--hover);padding:0 16px 0 36px;font-size:13px;outline:none;transition:.2s}
@@ -54,11 +54,8 @@ body.dark header{background:rgba(10,10,10,.85)}
 .u-trigger{background:none;border:none;padding:2px;border-radius:50%}
 .avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--border)}
 .hover-card{position:absolute;top:calc(100% + 8px);right:0;width:240px;background:var(--card);border-radius:var(--r);box-shadow:var(--sh-lg);border:1px solid var(--border);padding:16px;opacity:0;visibility:hidden;transform:translateY(-10px);pointer-events:none;transition:opacity .2s var(--ease), transform .2s var(--ease), visibility .2s;z-index:200}
-/* JS 控制的显隐，替代 CSS hover */
 .u-menu.active .hover-card{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
-/* 衔接桥梁，防止鼠标移过去时短暂离开 */
 .hover-card::before{content:'';position:absolute;top:-12px;left:0;right:0;height:12px;background:transparent;}
-
 .h-name{font-size:15px;font-weight:700;margin-bottom:4px;text-align:center}.h-sub{font-size:12px;color:var(--sub);text-align:center;margin-bottom:12px}
 .h-stats{display:flex;justify-content:space-around;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:12px}
 .h-stat .n{font-size:14px;font-weight:700}.h-stat .l{font-size:11px;color:var(--sub)}
@@ -260,12 +257,41 @@ body.dark .mobile-tabbar{background:rgba(10,10,10,.9)}
 <div id="splash"><div class="splash-inner"><div class="splash-logo anim-up d1">N站</div><div class="splash-sub anim-up d2">发现你的好故事</div><button class="splash-btn anim-up d3" onclick="enterSite()">进入</button></div></div>
 <header id="siteHeader">
   <div class="read-bar" id="readBar"></div>
-  <div class="h-inner"><button class="logo" onclick="goHome()">N站</button><nav class="nav-links"><button onclick="goHome('all')">首页</button><button onclick="goHome('shelf')">书架</button></nav><div class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input id="searchInput" type="search" placeholder="搜索书名或作者…" autocomplete="off" oninput="onSearch()"></div><div class="h-right" id="topbarRight"></div></div>
+  <div class="h-inner">
+    <button class="logo" onclick="goHome()">N站</button>
+    <nav class="nav-links">
+      <button onclick="goHome('all')">首页</button>
+      <button onclick="goHome('shelf')">书架</button>
+      <a href="https://zhenovo.github.io/pmNW/" target="_blank">发现</a>
+    </nav>
+    <div class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input id="searchInput" type="search" placeholder="搜索书名或作者…" autocomplete="off" oninput="onSearch()"></div>
+    <div class="h-right" id="topbarRight"></div>
+  </div>
 </header>
 <nav class="cat-bar" id="catBar"><div class="cat-inner" id="categoryInner"><button class="cat-item active" onclick="setCategory('全部')">全部</button><button class="cat-item" onclick="setCategory('玄幻')">玄幻</button><button class="cat-item" onclick="setCategory('奇幻')">奇幻</button><button class="cat-item" onclick="setCategory('武侠')">武侠</button><button class="cat-item" onclick="setCategory('仙侠')">仙侠</button><button class="cat-item" onclick="setCategory('都市')">都市</button><button class="cat-item" onclick="setCategory('历史')">历史</button><button class="cat-item" onclick="setCategory('科幻')">科幻</button></div></nav>
 <main id="app" tabindex="-1"></main>
 <button class="zen-exit" id="zenExit" onclick="toggleZen()">退出沉浸</button>
-<nav class="mobile-tabbar" id="tabBar"><div class="tab-inner"><button class="tab-item active" id="tab-home" onclick="goHome('all')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>首页</span></button><button class="tab-item" id="tab-shelf" onclick="goHome('shelf')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><span>书架</span></button><button class="tab-item" id="tab-upload" onclick="goDashboard()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg><span>创作</span></button><button class="tab-item" id="tab-profile" onclick="openMobileMenu()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>我的</span></button></div></nav>
+
+<!-- 移动端底部导航，加入“发现”外链 -->
+<nav class="mobile-tabbar" id="tabBar">
+  <div class="tab-inner">
+    <button class="tab-item active" id="tab-home" onclick="goHome('all')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>首页</span>
+    </button>
+    <button class="tab-item" id="tab-shelf" onclick="goHome('shelf')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><span>书架</span>
+    </button>
+    <button class="tab-item" id="tab-discover" onclick="window.open('https://zhenovo.github.io/pmNW/','_blank')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg><span>发现</span>
+    </button>
+    <button class="tab-item" id="tab-upload" onclick="goDashboard()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg><span>创作</span>
+    </button>
+    <button class="tab-item" id="tab-profile" onclick="openMobileMenu()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>我的</span>
+    </button>
+  </div>
+</nav>
 
 <!-- 移动端头像弹出菜单 -->
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
@@ -335,7 +361,12 @@ window.enterSite=function(){
   setTimeout(()=>{const agreed=localStorage.getItem('ns_agreed')==='1';if(!agreed)showOverlay('disclaimerOverlay');},500);
 };
 window.acceptDisclaimer=function(){if(!$('agreeCheck').checked)return;localStorage.setItem('ns_agreed','1');hideOverlay('disclaimerOverlay');};
-function updateMobileTab(view){document.querySelectorAll('.tab-item').forEach(el=>el.classList.remove('active'));if(view==='home')$('tab-home')?.classList.add('active');if(view==='shelf')$('tab-shelf')?.classList.add('active');if(view==='dash')$('tab-upload')?.classList.add('active');}
+function updateMobileTab(view){
+  document.querySelectorAll('.tab-item').forEach(el=>el.classList.remove('active'));
+  if(view==='home')$('tab-home')?.classList.add('active');
+  if(view==='shelf')$('tab-shelf')?.classList.add('active');
+  if(view==='dash')$('tab-upload')?.classList.add('active');
+}
 window.setCategory=function(cat){State.category=cat;document.querySelectorAll('.cat-item').forEach(el=>el.classList.toggle('active',el.textContent===cat));renderHome($('app'));};
 
 window.goHome=function(tab){
@@ -423,6 +454,7 @@ window.openMobileMenu = function() {
     <div class="mobile-menu-list">
       <a onclick="goProfile()">个人中心</a>
       <a onclick="goDashboard()">作者后台</a>
+      <a href="https://zhenovo.github.io/pmNW/" target="_blank">发现更多</a>
       <div style="height:1px;background:var(--border);margin:8px 0;"></div>
       <a class="danger" onclick="doLogout()">退出登录</a>
     </div>
